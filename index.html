@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Skyrealm - Serveur Minecraft Officiel</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet" />
+    <style>
+        :root {
+            --main-color: #4CAF50;
+            --main-color-light: #81C784;
+            --main-color-shadow: #4CAF50aa;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            font-size: 16px;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background: linear-gradient(to bottom, rgba(5,5,5,0.85), rgba(10,10,10,0.95)), url('5978807.jpg') center/cover no-repeat fixed;
+            color: #eee;
+            min-height: 100vh;
+        }
+
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(15,15,15,0.85);
+            backdrop-filter: saturate(180%) blur(15px);
+            padding: 15px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 9999;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.8);
+        }
+
+            nav.scrolled {
+                background: rgba(10,10,10,0.95);
+            }
+
+            nav .logo {
+                font-size: 1.9rem;
+                font-weight: 900;
+                color: var(--main-color);
+                letter-spacing: 2px;
+                user-select: none;
+                cursor: default;
+            }
+
+            nav ul {
+                list-style: none;
+                display: flex;
+                gap: 30px;
+            }
+
+                nav ul li {
+                    font-weight: 600;
+                    font-size: 1rem;
+                    color: #ccc;
+                    cursor: default;
+                    transition: color 0.3s ease;
+                    user-select: none;
+                }
+
+                    nav ul li:hover {
+                        color: var(--main-color);
+                    }
+
+        header.hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 0 20px;
+            text-align: center;
+        }
+
+            header.hero h1 {
+                font-size: 4.8rem;
+                color: var(--main-color);
+                text-shadow: 0 0 10px var(--main-color);
+                margin-bottom: 15px;
+            }
+
+            header.hero p.ip {
+                font-size: 1.4rem;
+                background: rgba(0,0,0,0.5);
+                padding: 15px 30px;
+                border-radius: 25px;
+                letter-spacing: 1.2px;
+                font-weight: 600;
+                user-select: all;
+                cursor: text;
+                box-shadow: 0 0 20px var(--main-color-shadow);
+            }
+
+                header.hero p.ip:hover {
+                    background: rgba(0,0,0,0.7);
+                }
+
+        main.content {
+            max-width: 900px;
+            margin: 80px auto 60px; /* marge haut plus raisonnable */
+            padding: 0 20px;
+            background: rgba(0,0,0,0.55);
+            border-radius: 15px;
+            box-shadow: 0 0 50px var(--main-color-shadow);
+        }
+
+            main.content section {
+                padding: 40px 0;
+                border-bottom: 1px solid var(--main-color-shadow);
+            }
+
+                main.content section:last-child {
+                    border-bottom: none;
+                }
+
+            main.content h2 {
+                font-size: 2.4rem;
+                color: var(--main-color-light);
+                margin-bottom: 25px;
+                text-align: center;
+            }
+
+            main.content ul {
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 22px;
+                list-style: none;
+            }
+
+                main.content ul li {
+                    background: #ffffff0a;
+                    padding: 15px 28px;
+                    border-radius: 15px;
+                    font-weight: 600;
+                    font-size: 1.15rem;
+                    color: #d9f6d9;
+                    box-shadow: 0 0 15px var(--main-color-shadow);
+                    cursor: default;
+                    user-select: none;
+                    transition: transform 0.3s ease, box-shadow 0.3s ease;
+                }
+
+                    main.content ul li:hover {
+                        transform: scale(1.1);
+                        box-shadow: 0 0 30px var(--main-color);
+                    }
+
+        .social-buttons {
+            max-width: 320px;
+            margin: 80px auto 40px; /* espace entre main.content et boutons sociaux */
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+        }
+
+        .social-btn {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 130px;
+            padding: 20px 15px;
+            border-radius: 15px;
+            color: white;
+            font-weight: 700;
+            font-size: 1rem;
+            text-decoration: none;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+            cursor: pointer;
+            transition: box-shadow 0.3s ease, transform 0.3s ease;
+            border: none;
+            user-select: none;
+            text-align: center;
+        }
+
+            .social-btn img {
+                width: 40px;
+                height: 40px;
+                margin-bottom: 10px;
+            }
+
+            .social-btn:hover {
+                box-shadow: 0 12px 30px rgba(0,0,0,0.5);
+                transform: translateY(-4px);
+            }
+
+        footer {
+            text-align: center;
+            padding: 30px 10px 20px;
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 600px) {
+            header.hero h1 {
+                font-size: 3rem;
+            }
+
+            main.content ul {
+                gap: 15px;
+            }
+
+                main.content ul li {
+                    padding: 12px 20px;
+                    font-size: 1rem;
+                }
+
+            nav ul {
+                gap: 15px;
+            }
+
+            .social-buttons {
+                max-width: 100%;
+                padding: 0 10px;
+                gap: 15px;
+                flex-wrap: wrap;
+            }
+
+            .color-picker {
+                right: 10px;
+                bottom: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav id="navbar">
+        <div class="logo">Skyrealm</div>
+        <ul>
+            <li>Survie</li>
+            <li>Skyblock</li>
+            <li>Créatif</li>
+            <li>Focus</li>
+            <li>KitPVP</li>
+            <li>Mob Arena</li>
+            <li>FunGame</li>
+            <li>Cosmétiques</li>
+        </ul>
+    </nav>
+
+    <header class="hero">
+        <h1>Skyrealm</h1>
+        <p class="ip" title="Clique pour copier" onclick="copyIP()">playskyrealm.aternos.me</p>
+    </header>
+
+    <main class="content">
+        <section>
+            <h2>Version 1.20</h2>
+        </section>
+        <section>
+            <h2>Jeux disponibles</h2>
+            <ul>
+                <li><a href="survie.html">Survie</a></li>
+                <li><a href="skyblock.html">Skyblock</a></li>
+                <li><a href="creatif.html">Créatif</a></li>
+                <li><a href="focus.html">Focus</a></li>
+                <li><a href="kitpvp.html">KitPVP</a></li>
+                <li><a href="mobarena.html">Mob Arena</a></li>
+                <li><a href="fungame.html">FunGame</a></li>
+                <li><a href="cosmetiques.html">Cosmétiques</a></li>
+            </ul>
+        </section>
+        <section>
+            <H2>Retour sur nos modes de jeux :</H2>
+
+        </section>
+    </main>
+
+    <div class="social-buttons">
+        <a href="https://discord.gg/pnFH3TvevH" target="_blank" class="social-btn" style="background:#7289DA;">
+            <img src="https://cdn-icons-png.flaticon.com/512/2111/2111370.png" alt="Discord" />
+            Discord
+        </a>
+        <a href="https://twitter.com/votre_twitter" target="_blank" class="social-btn" style="background:#1DA1F2;">
+            <img src="https://cdn-icons-png.flaticon.com/512/733/733579.png" alt="Twitter" />
+            Twitter
+        </a>
+        <a href="https://youtube.com/votre_chaine" target="_blank" class="social-btn" style="background:#FF0000;">
+            <img src="https://cdn-icons-png.flaticon.com/512/1384/1384060.png" alt="YouTube" />
+            YouTube
+        </a>
+        <button onclick="copyShareLink()" class="social-btn" style="background:#6A5ACD;">
+            <img src="https://cdn-icons-png.flaticon.com/512/545/545682.png" alt="Partager" />
+            Partager
+        </button>
+    </div>
+
+    <footer>
+        © 2025 Skyrealm • contact@skyrealm.fr
+    </footer>
+
+    <script>
+        function copyIP() {
+            const ip = "playskyrealm.aternos.me";
+            navigator.clipboard.writeText(ip).then(() => {
+                alert("IP copiée dans le presse-papiers : " + ip);
+            });
+        }
+
+        function copyShareLink() {
+            const url = window.location.href;
+            navigator.clipboard.writeText(url).then(() => {
+                alert("Lien du site copié dans le presse-papiers : " + url);
+            });
+        }
+
+        window.addEventListener('scroll', () => {
+            const nav = document.getElementById('navbar');
+            nav.classList.toggle('scrolled', window.scrollY > 50);
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Skyblock - Skyrealm</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"/>
+    <style>
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background: linear-gradient(120deg, #e0eafc 0%, #cfdef3 100%);
+            margin: 0;
+            color: #23272f;
+            transition: background 0.3s, color 0.3s;
+        }
+        .toggle-dark {
+            position: fixed;
+            top: 24px;
+            right: 24px;
+            z-index: 2000;
+            background: #fff;
+            color: #23272f;
+            border: none;
+            border-radius: 50%;
+            width: 48px;
+            height: 48px;
+            font-size: 1.5rem;
+            box-shadow: 0 2px 8px rgba(44,62,80,0.10);
+            cursor: pointer;
+            transition: background 0.2s, color 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .toggle-dark.active, .toggle-dark:hover {
+            background: #23272f;
+            color: #fff;
+        }
+        body.dark-mode {
+            background: linear-gradient(120deg, #23272f 0%, #2c3e50 100%);
+            color: #f5f5f5;
+        }
+        body.dark-mode .article-card,
+        body.dark-mode .article-toc {
+            background: rgba(30,34,40,0.97);
+            color: #f5f5f5;
+        }
+        body.dark-mode .banner-title {
+            background: rgba(30,34,40,0.65);
+        }
+        body.dark-mode .features-list li,
+        body.dark-mode .testimonials blockquote {
+            background: rgba(76,175,80,0.13);
+            color: #b2ffb2;
+        }
+        body.dark-mode .contact-support {
+            border-top: 1px solid #333;
+        }
+        body.dark-mode .back-link,
+        body.dark-mode .join-btn {
+            background: linear-gradient(90deg, #23272f 60%, #388E3C 100%);
+        }
+        body.dark-mode .meta-info,
+        body.dark-mode .article-card h3,
+        body.dark-mode .article-card h2 {
+            color: #b2ffb2;
+        }
+        body.dark-mode .article-card p,
+        body.dark-mode .tips-list,
+        body.dark-mode .features-list li {
+            color: #e0ffe0;
+        }
+        body.dark-mode .article-toc a {
+            color: #b2ffb2;
+        }
+        body.dark-mode .article-toc a:hover {
+            color: #4CAF50;
+        }
+        .article-toc {
+            max-width: 900px;
+            margin: 0 auto 0 auto;
+            background: rgba(255,255,255,0.97);
+            border-radius: 0 0 14px 14px;
+            box-shadow: 0 2px 12px rgba(44,62,80,0.07);
+            padding: 18px 24px 10px 24px;
+            display: flex;
+            justify-content: center;
+            position: relative;
+            z-index: 10;
+            top: 0;
+            animation: fadeIn 1.2s;
+        }
+        .article-toc ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            gap: 24px;
+            flex-wrap: wrap;
+        }
+        .article-toc a {
+            color: #388E3C;
+            text-decoration: none;
+            font-weight: 700;
+            transition: color 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 7px;
+        }
+        .article-toc a:hover {
+            color: #4CAF50;
+            text-decoration: underline;
+        }
+        .banner-img {
+            position: relative;
+            width: 100%;
+            height: 370px;
+            background: url('banner_skyblock.jpg') center/cover no-repeat;
+            display: flex;
+            align-items: flex-end;
+            overflow: hidden;
+        }
+        .banner-img::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(44,62,80,0.65) 0%, rgba(76,175,80,0.18) 100%);
+            z-index: 1;
+        }
+        .banner-title {
+            position: relative;
+            z-index: 2;
+            background: rgba(0,0,0,0.42);
+            color: #fff;
+            font-size: 2.7rem;
+            font-weight: 900;
+            padding: 22px 48px 22px 38px;
+            border-radius: 0 22px 0 0;
+            margin: 0 0 38px 0;
+            box-shadow: 0 4px 18px rgba(0,0,0,0.18);
+            letter-spacing: 2px;
+            backdrop-filter: blur(2px);
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            animation: fadeInDown 1s;
+        }
+        .banner-title i {
+            font-size: 2.2rem;
+            color: #81C784;
+        }
+        .article-card {
+            max-width: 900px;
+            margin: -30px auto 48px auto;
+            background: rgba(255,255,255,0.96);
+            border-radius: 24px;
+            box-shadow: 0 8px 40px rgba(44,62,80,0.13), 0 1.5px 8px rgba(76,175,80,0.09);
+            padding: 54px 38px 44px 38px;
+            position: relative;
+            z-index: 3;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            backdrop-filter: blur(4px);
+            animation: fadeIn 1.2s;
+        }
+        .meta-info {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            font-size: 1.05rem;
+            color: #388E3C;
+            margin-bottom: 22px;
+            opacity: 0.92;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+        .video-container iframe {
+        width: 100%;
+        height: 100%;
+        border: none;
+        display: block;
+    }
+        .meta-info img {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid #4CAF50;
+            box-shadow: 0 2px 8px rgba(44,62,80,0.10);
+        }
+        .meta-info i {
+            color: #4CAF50;
+            margin-right: 6px;
+        }
+        .article-card h2 {
+            color: #23272f;
+            font-size: 2.3rem;
+            margin-top: 0;
+            margin-bottom: 22px;
+            text-align: center;
+            font-weight: 800;
+            letter-spacing: 1px;
+        }
+        .article-card h3 {
+            color: #388E3C;
+            font-size: 1.35rem;
+            margin-top: 32px;
+            margin-bottom: 14px;
+            text-align: left;
+            font-weight: 700;
+        }
+        .video-container {
+            width: 100%;
+            max-width: 540px;
+            aspect-ratio: 16/9;
+            margin: 0 auto 32px auto;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 4px 18px rgba(44,62,80,0.10);
+            background: #000;
+            display: block;
+            position: relative;
+        }
+        .video-container a {
+            display: block;
+            width: 100%;
+            height: 100%;
+            position: relative;
+        }
+        .video-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 16px;
+            filter: brightness(0.7);
+        }
+        .video-container span {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%,-50%);
+            font-size: 3rem;
+            color: white;
+            text-shadow: 0 0 10px #000;
+            pointer-events: none;
+        }
+        .features-list {
+            list-style: none;
+            padding: 0;
+            margin: 0 0 24px 0;
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+        }
+        .features-list li {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            font-size: 1.15rem;
+            background: rgba(76,175,80,0.08);
+            border-radius: 12px;
+            padding: 14px 18px;
+            box-shadow: 0 2px 8px rgba(44,62,80,0.04);
+            font-weight: 600;
+        }
+        .features-list li i {
+            font-size: 1.5rem;
+            color: #4CAF50;
+            min-width: 32px;
+            text-shadow: 0 2px 8px rgba(76,175,80,0.10);
+        }
+        .article-card p {
+            margin-bottom: 0;
+            line-height: 1.85;
+            font-size: 1.18rem;
+            text-align: justify;
+            color: #2d2d2d;
+        }
+        .article-card blockquote {
+            margin: 28px 0;
+            padding: 18px 28px;
+            background: rgba(76,175,80,0.10);
+            border-left: 5px solid #4CAF50;
+            border-radius: 10px;
+            font-style: italic;
+            color: #388E3C;
+            font-size: 1.12rem;
+        }
+        .article-card ul.tips-list {
+            margin: 0 0 24px 0;
+            padding-left: 24px;
+            color: #388E3C;
+        }
+        .join-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: linear-gradient(90deg, #388E3C 60%, #81C784 100%);
+            color: #fff;
+            font-weight: 700;
+            font-size: 1.13rem;
+            border: none;
+            border-radius: 30px;
+            padding: 14px 32px;
+            margin: 30px 0 30px 0;
+            cursor: pointer;
+            box-shadow: 0 4px 18px rgba(76,175,80,0.13);
+            transition: background 0.2s, transform 0.2s;
+        }
+        .join-btn:hover {
+            background: linear-gradient(90deg, #4CAF50 60%, #388E3C 100%);
+            transform: scale(1.04);
+        }
+        .testimonials {
+            margin: 38px 0 18px 0;
+            width: 100%;
+            max-width: 700px;
+        }
+        .testimonials blockquote {
+            background: rgba(76,175,80,0.08);
+            border-left: 4px solid #4CAF50;
+            border-radius: 10px;
+            margin: 0 0 18px 0;
+            padding: 16px 24px;
+            font-style: italic;
+            color: #388E3C;
+            font-size: 1.08rem;
+            position: relative;
+            animation: fadeInUp 1.2s;
+        }
+        .testimonials span {
+            display: block;
+            margin-top: 8px;
+            color: #23272f;
+            font-weight: 700;
+            font-size: 0.98rem;
+        }
+        .contact-support {
+            margin: 38px 0 0 0;
+            padding: 24px 0 0 0;
+            border-top: 1px solid #e0e0e0;
+            width: 100%;
+            text-align: center;
+        }
+        .contact-support a {
+            color: #4CAF50;
+            font-weight: 700;
+            text-decoration: none;
+            margin: 0 12px;
+            transition: color 0.2s;
+        }
+        .contact-support a:hover {
+            color: #388E3C;
+            text-decoration: underline;
+        }
+        .back-link {
+            display: inline-block;
+            margin: 44px 0 0 0;
+            color: #fff;
+            background: linear-gradient(90deg, #4CAF50 60%, #81C784 100%);
+            padding: 15px 36px;
+            border-radius: 30px;
+            font-weight: 700;
+            text-decoration: none;
+            box-shadow: 0 4px 18px rgba(76,175,80,0.18);
+            transition: background 0.2s, transform 0.2s;
+            font-size: 1.13rem;
+            letter-spacing: 1px;
+        }
+        .back-link:hover {
+            background: linear-gradient(90deg, #388E3C 60%, #81C784 100%);
+            transform: translateY(-2px) scale(1.04);
+            text-decoration: underline;
+        }
+        .scroll-top {
+            position: fixed;
+            bottom: 32px;
+            right: 32px;
+            background: #4CAF50;
+            color: #fff;
+            border: none;
+            border-radius: 50%;
+            width: 54px;
+            height: 54px;
+            font-size: 2rem;
+            box-shadow: 0 4px 18px rgba(44,62,80,0.18);
+            cursor: pointer;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 100;
+            transition: background 0.2s, transform 0.2s;
+        }
+        .scroll-top:hover {
+            background: #388E3C;
+            transform: scale(1.08);
+        }
+        @media (max-width: 900px) {
+            .article-card {
+                padding: 28px 8px 24px 8px;
+            }
+            .banner-title {
+                font-size: 1.5rem;
+                padding: 10px 18px 10px 12px;
+            }
+            .article-toc ul {
+                gap: 10px;
+            }
+            .toggle-dark {
+                top: 12px;
+                right: 12px;
+                width: 40px;
+                height: 40px;
+                font-size: 1.1rem;
+            }
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(30px);}
+            to { opacity: 1; transform: translateY(0);}
+        }
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-30px);}
+            to { opacity: 1; transform: translateY(0);}
+        }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px);}
+            to { opacity: 1; transform: translateY(0);}
+        }
+    </style>
+</head>
+<body>
+    <button class="toggle-dark" id="toggleDarkBtn" title="Mode nuit"><i class="fa-solid fa-moon"></i></button>
+    <nav class="article-toc">
+        <ul>
+            <li><a href="#intro"><i class="fa-solid fa-play"></i> Introduction</a></li>
+            <li><a href="#iles"><i class="fa-solid fa-cubes"></i> Îles & Coop</a></li>
+            <li><a href="#gameplay"><i class="fa-solid fa-hammer"></i> Gameplay</a></li>
+            <li><a href="#conseils"><i class="fa-solid fa-lightbulb"></i> Conseils</a></li>
+            <li><a href="#faq"><i class="fa-solid fa-question-circle"></i> FAQ</a></li>
+        </ul>
+    </nav>
+
+    <div class="banner-img">
+        <div class="banner-title"><i class="fa-solid fa-cloud"></i>Skyblock</div>
+    </div>
+
+    <div class="article-card">
+        <div class="meta-info">
+            <img src="https://minotar.net/avatar/Alex/32" alt="Auteur">
+            <span><i class="fa-solid fa-user"></i> Skyrealm Team</span>
+            <span><i class="fa-solid fa-calendar-days"></i> Juillet 2025</span>
+        </div>
+        <h2 id="intro">Le mode Skyblock</h2>
+        <div class="video-container">
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/iYTb-XuP2g0?si=caPaxWqJMQWJlG7z" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        </div>
+        <button class="join-btn" onclick="copyIP()">
+            <i class="fa-solid fa-copy"></i> Copier l’IP du serveur
+        </button>
+        <p>
+            Le mode Skyblock de Skyrealm te propulse sur une île volante, seul ou en équipe, avec des ressources limitées. Développe ton île, automatise tes fermes, relève des défis et grimpe dans le classement ! Ici, chaque bloc compte et la créativité est la clé pour progresser.
+        </p>
+
+        <h3 id="iles"><i class="fa-solid fa-cubes"></i> Îles personnalisées & Coopération</h3>
+        <ul class="features-list">
+            <li><i class="fa-solid fa-cube"></i> <b>Îles évolutives</b> Commence petit et agrandis ton île à l’infini !</li>
+            <li><i class="fa-solid fa-users"></i> <b>Mode coop</b> Invite tes amis et construisez ensemble la meilleure île du serveur.</li>
+            <li><i class="fa-solid fa-trophy"></i> <b>Classements </b> Participe à des challenges pour gagner des récompenses exclusives.</li>
+            <li><i class="fa-solid fa-store"></i> <b>Shops & économie</b> Achète, vends et échange des ressources avec les autres joueurs.</li>
+        </ul>
+
+        <h3 id="gameplay"><i class="fa-solid fa-hammer"></i> Gameplay & fonctionnalités exclusives</h3>
+        <p>
+            Skyrealm Skyblock propose des missions journalières, des objectifs à atteindre, des events réguliers et des plugins uniques pour personnaliser ton expérience. Automatise tes fermes, découvre des secrets cachés et deviens une légende du ciel !
+        </p>
+        <blockquote>
+            “Sur Skyblock, chaque île est unique et chaque joueur peut laisser libre cours à son imagination !”
+        </blockquote>
+
+        <h3 id="conseils"><i class="fa-solid fa-lightbulb"></i> Conseils pour bien débuter</h3>
+        <ul class="tips-list">
+            <li>Rejoignez le Discord pour échanger des astuces et trouver des partenaires de jeu.</li>
+            <li>Pensez à sécuriser votre île et à inviter des amis pour progresser plus vite.</li>
+            <li>Participez aux défis hebdomadaires pour gagner des récompenses rares.</li>
+            <li>Utilisez les shops pour obtenir les ressources difficiles à farmer.</li>
+        </ul>
+
+        <h3 id="faq"><i class="fa-solid fa-question-circle"></i> FAQ rapide</h3>
+        <ul class="tips-list">
+            <li><b>Comment rejoindre ?</b> Ajoutez <span style="color:#4CAF50;font-weight:700;">playskyrealm.aternos.me</span> dans vos serveurs Minecraft (version 1.20+).</li>
+            <li><b>Serveur crack ?</b> Oui, Skyrealm est ouvert aux versions crack et premium.</li>
+            <li><b>Île perdue ?</b> Utilisez la commande <code>/is home</code> pour revenir sur votre île à tout moment.</li>
+        </ul>
+
+        <div class="testimonials">
+            <blockquote>“Le meilleur Skyblock, staff à l’écoute et events funs !” <span>- Emma</span></blockquote>
+            <blockquote>“J’ai automatisé toute mon île, c’est trop satisfaisant !” <span>- Max</span></blockquote>
+            <blockquote>“On progresse vite en coop, venez nombreux !” <span>- Léo</span></blockquote>
+        </div>
+
+        <div class="contact-support">
+            <h3><i class="fa-solid fa-headset"></i> Support & contact</h3>
+            <p>
+                Une question ? Un souci ? Contacte-nous sur 
+                <a href="https://discord.gg/pnFH3TvevH" target="_blank"><i class="fa-brands fa-discord"></i> Discord</a>
+                ou par mail : <a href="mailto:contact@skyrealm.fr">contact@skyrealm.fr</a>
+            </p>
+        </div>
+
+        <p style="margin-top:32px;">
+            <b>Prêt à décoller ?</b> Skyrealm Skyblock t’attend pour bâtir ton empire dans les airs. À très vite en jeu !
+        </p>
+    </div>
+    <a href="index.html" class="back-link">← Retour à l'accueil</a>
+    <button class="scroll-top" id="scrollTopBtn" title="Retour en haut"><i class="fa-solid fa-arrow-up"></i></button>
+    <script>
+        function copyIP() {
+            const ip = "playskyrealm.aternos.me";
+            navigator.clipboard.writeText(ip).then(() => {
+                alert("IP copiée dans le presse-papiers : " + ip);
+            });
+        }
+        // Scroll top button
+        const scrollBtn = document.getElementById('scrollTopBtn');
+        window.addEventListener('scroll', () => {
+            if(window.scrollY > 300) scrollBtn.style.display = 'flex';
+            else scrollBtn.style.display = 'none';
+        });
+        scrollBtn.onclick = () => window.scrollTo({top:0, behavior:'smooth'});
+
+        // Mode nuit
+        const darkBtn = document.getElementById('toggleDarkBtn');
+        darkBtn.onclick = function() {
+            document.body.classList.toggle('dark-mode');
+            this.classList.toggle('active');
+            this.innerHTML = document.body.classList.contains('dark-mode')
+                ? '<i class="fa-solid fa-sun"></i>'
+                : '<i class="fa-solid fa-moon"></i>';
+        };
+    </script>
+</body>
+</html>

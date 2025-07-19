@@ -1,0 +1,36 @@
+def menu():
+    print("1. Puissance active (P)")
+    print("2. Puissance apparente (S)")
+    print("3. Rendement (%)")
+    print("4. Puissance utile (P_utile)")
+    print("0. Quitter")
+    return input("Choix : ")
+
+while True:
+    choix = menu()
+    if choix == "1":
+        U = float(input("Tension U (V) : "))
+        I = float(input("Courant I (A) : "))
+        cosphi = float(input("cos(phi) : "))
+        P = U * I * cosphi
+        print("Puissance active P = {:.2f} W".format(P))
+    elif choix == "2":
+        U = float(input("Tension U (V) : "))
+        I = float(input("Courant I (A) : "))
+        S = U * I
+        print("Puissance apparente S = {:.2f} VA".format(S))
+    elif choix == "3":
+        P_in = float(input("Puissance entrée (W) : "))
+        P_out = float(input("Puissance sortie (W) : "))
+        rendement = (P_out / P_in) * 100
+        print("Rendement = {:.2f} %".format(rendement))
+    elif choix == "4":
+        P = float(input("Puissance active P (W) : "))
+        rendement = float(input("Rendement (%) : "))
+        P_utile = P * (rendement / 100)
+        print("Puissance utile = {:.2f} W".format(P_utile))
+    elif choix == "0":
+        print("Au revoir !")
+        break
+    else:
+        print("Choix invalide.")
